@@ -134,6 +134,7 @@ dh dh.pem
 tls-auth ta.key 0
 topology subnet
 server 10.8.0.0 255.255.255.0
+auth-user-pass-verify verify.py via-env
 ifconfig-pool-persist ipp.txt" > /etc/openvpn/server.conf
 echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
 
@@ -256,6 +257,8 @@ mkdir /etc/openvpn/clients/
 chown -R www-data:www-data /etc/openvpn/easy-rsa
 chown -R www-data:www-data /etc/openvpn/clients/
 chmod -R 755 /etc/openvpn/
+wget -O /etc/openvpn/verify.py https://raw.githubusercontent.com/kenneyhe-zingbox/simple-openvpn-server/master/verify.py
+chmod -R 755 /etc/openvpn/verify.py
 chmod -R 777 /etc/openvpn/crl.pem
 chmod g+s /etc/openvpn/clients/
 chmod g+s /etc/openvpn/easy-rsa/
@@ -272,6 +275,7 @@ mv /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.$$
 wget -O /etc/lighttpd/lighttpd.conf https://raw.githubusercontent.com/kenneyhe-zingbox/simple-openvpn-server/master/lighttpd.conf
 
 #install the webserver scripts
+mkdir -p /var/www/html 2> /dev/null
 rm /var/www/html/*
 wget -O /var/www/html/index.sh https://raw.githubusercontent.com/kenneyhe-zingbox/simple-openvpn-server/master/index.sh
 
